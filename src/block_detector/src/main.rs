@@ -15,9 +15,14 @@ enum AxlePosition{
 #[tokio::main]
 async fn main() -> Result<(), DynError>{
     let mut chip = Chip::new("/dev/gpiochip0")?;
-    let line_front = chip.get_line(135)?;
-    let line_middle = chip.get_line(134)?;
-    let line_rear = chip.get_line(133)?;
+    let front_pin_number = 135;
+    let middle_pin_number = 134;
+    let rear_pin_number = 133;
+
+    let line_front = chip.get_line(front_pin_number)?;
+    let line_middle = chip.get_line(middle_pin_number)?;
+    let line_rear = chip.get_line(rear_pin_number)?;
+    
     let mut events_front = AsyncLineEventHandle::new(line_front.events(
         LineRequestFlags::INPUT, 
         EventRequestFlags::BOTH_EDGES, 
@@ -41,14 +46,14 @@ async fn main() -> Result<(), DynError>{
 
     loop{
         tokio::select! {
-            Some(event) = events_front.next() => solenoid_publisher(&publisher, AxlePosition::FRONT, event?),
-            Some(event) = events_middle.next() => solenoid_publisher(&publisher, AxlePosition::MIDDLE, event?),
-            Some(event) = events_rear.next() => solenoid_publisher(&publisher, AxlePosition::REAR, event?),
+            Some(event) = events_front.next() => solenoid_publisher(&publisher, AxlePosition::FRONT, event?).await,
+            Some(event) = events_middle.next() => solenoid_publisher(&publisher, AxlePosition::MIDDLE, event?).await,
+            Some(event) = events_rear.next() => solenoid_publisher(&publisher, AxlePosition::REAR, event?).await,
         }
     }
 }
 
-fn solenoid_publisher(publisher: &Publisher<drobo_interfaces::msg::SolenoidStateMsg>, axle_position: AxlePosition, event: LineEvent){
+async fn solenoid_publisher(publisher: &Publisher<drobo_interfaces::msg::SolenoidStateMsg>, axle_position: AxlePosition, event: LineEvent){
     let logger = Logger::new("block_detector");
     let mut msg = drobo_interfaces::msg::SolenoidStateMsg::new().unwrap();
     msg.axle_position = axle_position as u8;
@@ -58,6 +63,8 @@ fn solenoid_publisher(publisher: &Publisher<drobo_interfaces::msg::SolenoidState
             msg.state = true;
         }
         EventType::FallingEdge => {
+            let block_over_time = 2;
+            let _ = tokio::time::sleep(tokio::time::Duration::from_secs(block_over_time)).await;
             pr_info!(logger, "{}を下降", msg.axle_position);
             msg.state = false;
         }
