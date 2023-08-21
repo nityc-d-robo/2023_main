@@ -1,4 +1,4 @@
 [workspace]
-members = ["block_detector", "mecanum_air_riser"]
+members = ["block_detector", "pole_detector"]
 [workspace.dependencies]
 safe_drive = "0.2"
