@@ -6,7 +6,7 @@ class MecanumAirRiser : public rclcpp::Node{
     private:
         rclcpp::Publisher<drobo_interfaces::msg::SdLibMsg>::SharedPtr _publisher;
         rclcpp::Subscription<drobo_interfaces::msg::SolenoidStateMsg>::SharedPtr _subscription;
-        void _topic_callback(const drobo_interfaces::msg::SolenoidStateMsg::SharedPtr msg);
+        void _topic_callback(const drobo_interfaces::msg::SolenoidStateMsg::SharedPtr _msg);
     public:
         MecanumAirRiser(
             const rclcpp::NodeOptions& options = rclcpp::NodeOptions()
