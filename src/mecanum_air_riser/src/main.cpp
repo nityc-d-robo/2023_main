@@ -3,10 +3,12 @@
 #include <rclcpp/rclcpp.hpp>
 #include <rclcpp/qos.hpp>
 #include "drobo_interfaces/msg/solenoid_state_msg.hpp"
+#include <motor_lib/motor_lib.hpp>
 
 void MecanumAirRiser::_topic_callback(const drobo_interfaces::msg::SolenoidStateMsg::SharedPtr msg){
     RCLCPP_INFO(this->get_logger(), "%uを%d", msg->axle_position, msg->state);
-    //motor_libを叩く
+    int solenoind_power = msg->state ? 0 : 999;
+    MotorLib::sd.sendPowers(msg->axle_position, NULL, solenoind_power, solenoind_power, 5000);
 }
 
 MecanumAirRiser::MecanumAirRiser(
@@ -25,6 +27,13 @@ MecanumAirRiser::MecanumAirRiser(
 }
 
 int main(int argc, char* argv[]){
+    MotorLib::usb_config.vendor_id = 0x483;
+    MotorLib::usb_config.product_id = 0x5740;
+    MotorLib::usb_config.b_interface_number = 0;
+
+    MotorLib::usb.setUsb(&MotorLib::usb_config);
+    MotorLib::usb.openUsb();
+
     rclcpp::init(argc, argv);
     rclcpp::spin(std::make_shared<MecanumAirRiser>());
     rclcpp::shutdown();
