@@ -15,6 +15,8 @@ find_package(rosidl_default_generators REQUIRED)
 
 rosidl_generate_interfaces(${PROJECT_NAME}
 	"msg/SolenoidStateMsg.msg"
+  "msg/MdLibMsg.msg"
+  "msg/SdLibMsg.msg"
 )
 
 if(BUILD_TESTING)

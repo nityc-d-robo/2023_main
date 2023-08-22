@@ -10,7 +10,6 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(drobo_interfaces REQUIRED)
 find_package(usb_connect REQUIRED)
-find_package(motor_lib REQUIRED)
 
 include_directories(
   include
@@ -20,19 +19,9 @@ add_executable(mecanum_air_riser
   src/main.cpp
 )
 
-target_link_libraries(mecanum_air_riser
-  usb_connect
-  md_lib
-  smd_lib
-  sd_lib
-  sr_lib
-  sm_lib
-)
-
 ament_target_dependencies(mecanum_air_riser
   rclcpp
   drobo_interfaces
-  motor_lib
 )
 
 install(TARGETS

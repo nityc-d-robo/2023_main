@@ -3,12 +3,18 @@
 #include <rclcpp/rclcpp.hpp>
 #include <rclcpp/qos.hpp>
 #include "drobo_interfaces/msg/solenoid_state_msg.hpp"
-#include <motor_lib/motor_lib.hpp>
+#include "drobo_interfaces/msg/sd_lib_msg.hpp"
 
-void MecanumAirRiser::_topic_callback(const drobo_interfaces::msg::SolenoidStateMsg::SharedPtr msg){
-    RCLCPP_INFO(this->get_logger(), "%uを%d", msg->axle_position, msg->state);
-    int solenoind_power = msg->state ? 0 : 999;
-    MotorLib::sd.sendPowers(msg->axle_position, NULL, solenoind_power, solenoind_power, 5000);
+void MecanumAirRiser::_topic_callback(const drobo_interfaces::msg::SolenoidStateMsg::SharedPtr _msg){
+    RCLCPP_INFO(this->get_logger(), "%uを%d", _msg->axle_position, _msg->state);
+    uint16_t solenoind_power = _msg->state ? 0 : 999;
+
+    auto msg = std::make_shared<drobo_interfaces::msg::SdLibMsg>();
+    msg->address = _msg->axle_position;
+    msg->semi_id = NULL;
+    msg->power1 = solenoind_power;
+    msg->power2 = solenoind_power;
+    _publisher->publish(*msg);
 }
 
 MecanumAirRiser::MecanumAirRiser(
@@ -19,6 +25,7 @@ MecanumAirRiser::MecanumAirRiser(
     const std::string& name_space,
     const rclcpp::NodeOptions& options
 ): Node("mecanum_air_riser", name_space, options){
+    _publisher = this->create_publisher<drobo_interfaces::msg::SdLibMsg>("sd_driver_topic", rclcpp::QoS(10));
     _subscription = this->create_subscription<drobo_interfaces::msg::SolenoidStateMsg>(
         "solenoid_order",
         rclcpp::QoS(10),
@@ -27,13 +34,6 @@ MecanumAirRiser::MecanumAirRiser(
 }
 
 int main(int argc, char* argv[]){
-    MotorLib::usb_config.vendor_id = 0x483;
-    MotorLib::usb_config.product_id = 0x5740;
-    MotorLib::usb_config.b_interface_number = 0;
-
-    MotorLib::usb.setUsb(&MotorLib::usb_config);
-    MotorLib::usb.openUsb();
-
     rclcpp::init(argc, argv);
     rclcpp::spin(std::make_shared<MecanumAirRiser>());
     rclcpp::shutdown();
