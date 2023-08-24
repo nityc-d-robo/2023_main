@@ -96,6 +96,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "demeter"
+version = "0.1.0"
+dependencies = [
+ "drobo_interfaces",
+ "safe_drive",
+]
+
+[[package]]
 name = "drobo_interfaces"
 version = "0.2.1"
 dependencies = [
