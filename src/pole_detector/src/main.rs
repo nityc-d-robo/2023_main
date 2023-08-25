@@ -43,10 +43,18 @@ async fn main() -> Result<(), DynError> {
     let publisher =
         node.create_publisher::<drobo_interfaces::msg::SolenoidStateMsg>("solenoid_order", None)?;
     let mut msg = drobo_interfaces::msg::SolenoidStateMsg::new().unwrap();
+    
 
     loop {
         let s_front = vl_front.read_sample()?.distance;
         if s_front < 1100 {
+            // サポート機構を上げる
+            let support_address = 0x04;
+            msg.axle_position = support_address;
+            msg.state = true;
+            publisher.send(&msg)?;
+
+            // ここからタイヤの上げ下げ
             msg.axle_position = 0;
             msg.state = true;
             publisher.send(&msg)?;

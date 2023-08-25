@@ -45,6 +45,11 @@ int main(int argc, char* argv[]){
     MotorLib::usb.setUsb(&MotorLib::usb_config);
     MotorLib::usb.openUsb();
 
+    // ソレノイド初期設定
+    for(int i = 0x00; i <= 0x04; i++){
+        MotorLib::sd.sendPowers(i, NULL, 999, 999);
+    }
+
     rclcpp::init(argc, argv);
     rclcpp::spin(std::make_shared<DMotorRos>());
     rclcpp::shutdown();
