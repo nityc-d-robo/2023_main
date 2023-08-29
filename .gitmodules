@@ -1,0 +1,4 @@
+[submodule "src/mecanum_control"]
+	path = src/mecanum_control
+	url = https://github.com/nityc-d-robo/mecanum_control.git
+	branch = feature/wip-single-motor_lib
