@@ -2,3 +2,7 @@
 	path = src/mecanum_control
 	url = https://github.com/nityc-d-robo/mecanum_control.git
 	branch = feature/wip-single-motor_lib
+[submodule "src/PlayStation-JoyInterface-ROS2"]
+	path = src/PlayStation-JoyInterface-ROS2
+	url = https://github.com/HarvestX/PlayStation-JoyInterface-ROS2.git
+	branch = galactic
