@@ -1,32 +1,29 @@
 cmake_minimum_required(VERSION 3.8)
-project(mecanum_air_riser)
+project(controller_2023)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
 # find dependencies
-find_package(ament_cmake REQUIRED)
-find_package(rclcpp REQUIRED)
-find_package(drobo_interfaces REQUIRED)
+find_package(ament_cmake_auto REQUIRED)
+ament_auto_find_build_dependencies()
 
 include_directories(
   include
 )
 
-add_executable(mecanum_air_riser
+ament_auto_add_library(controller_2023 SHARED
   src/main.cpp
 )
-
-ament_target_dependencies(mecanum_air_riser
-  rclcpp
-  drobo_interfaces
+rclcpp_components_register_node(controller_2023
+  PLUGIN "Controller2023"
+  EXECUTABLE controller_2023_exec
 )
 
-install(TARGETS
-  mecanum_air_riser
-  DESTINATION lib/${PROJECT_NAME}
-)
+# uncomment the following section in order to fill in
+# further dependencies manually.
+# find_package(<dependency> REQUIRED)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -40,4 +37,4 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-ament_package()
+ament_auto_package()

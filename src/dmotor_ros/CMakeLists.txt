@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(drobo_interfaces)
+project(dmotor_ros)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -7,16 +7,36 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-# uncomment the following section in order to fill in
-# further dependencies manually.
-# find_package(<dependency> REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(drobo_interfaces REQUIRED)
+find_package(usb_connect REQUIRED)
+find_package(motor_lib REQUIRED)
 
-find_package(rosidl_default_generators REQUIRED)
+include_directories(
+  include
+)
 
-rosidl_generate_interfaces(${PROJECT_NAME}
-	"msg/SolenoidStateMsg.msg"
-  "msg/MdLibMsg.msg"
-  "msg/SdLibMsg.msg"
+add_executable(dmotor_ros
+  src/main.cpp
+)
+
+target_link_libraries(dmotor_ros
+  usb_connect
+  md_lib
+  smd_lib
+  sd_lib
+  sr_lib
+  sm_lib
+)
+
+ament_target_dependencies(dmotor_ros
+  rclcpp
+  drobo_interfaces
+)
+
+install(TARGETS
+  dmotor_ros
+  DESTINATION lib/${PROJECT_NAME}
 )
 
 if(BUILD_TESTING)

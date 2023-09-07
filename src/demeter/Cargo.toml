@@ -1,5 +1,5 @@
 [package]
-name = "pole_detector"
+name = "demeter"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,10 +7,7 @@ edition = "2021"
 
 [dependencies]
 safe_drive = { workspace = true }
-tokio = { version = "1", features = ["full"] }
 drobo_interfaces = { path = "/tmp/2023_main/drobo_interfaces" }
-vl53l1x = "1.2"
-gpio-cdev = "0.5"
 
 [package.metadata.ros]
 msg = ["drobo_interfaces"]
