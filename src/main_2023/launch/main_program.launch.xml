@@ -9,9 +9,9 @@
         <param name="axis_linear.y" value="0"/>
         <param name="axis_angular.yaw" value="3"/>
 
-        <param name="scale_linear.x" value="10.0"/>
-        <param name="scale_linear.y" value="10.0"/>
-        <param name="scale_angular.yaw" value="360.0"/>
+        <param name="scale_linear.x" value="100.0"/>
+        <param name="scale_linear.y" value="100.0"/>
+        <param name="scale_angular.yaw" value="3600.0"/>
 
         <param name="require_enable_button" value="false"/>
         <param name="enable_turbo_button" value="-1"/>
