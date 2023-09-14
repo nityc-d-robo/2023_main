@@ -20,10 +20,11 @@ DMotorRos::DMotorRos(
         [this](const drobo_interfaces::msg::MdLibMsg::SharedPtr msg){
             switch(msg->mode){
                 case MotorLib::Md::PWM:
-                    MotorLib::md.sendPwm(msg->address, msg->semi_id, msg->phase, msg->power, 5000);
+                    RCLCPP_INFO(this->get_logger(), "%d,%d\n", msg->address, msg->power);
+                    MotorLib::md.sendPwm(msg->address, msg->phase, msg->power, 5000);
                     break;
                 case MotorLib::Md::SPEED:
-                    MotorLib::md.sendSpeed(msg->address, msg->semi_id, msg->phase, msg->power, 0, 1000, 5000);
+                    MotorLib::md.sendSpeed(msg->address, msg->phase, msg->power, 0, 1000, 5000);
                     break;
             }
         }
@@ -32,7 +33,7 @@ DMotorRos::DMotorRos(
         "sd_driver_topic",
         rclcpp::QoS(10),
         [this](const drobo_interfaces::msg::SdLibMsg::SharedPtr msg){
-            MotorLib::sd.sendPowers(msg->address, msg->semi_id, msg->power1, msg->power2, 5000);
+            MotorLib::sd.sendPowers(msg->address, msg->power1, msg->power2, 5000);
         }
     );
 }
