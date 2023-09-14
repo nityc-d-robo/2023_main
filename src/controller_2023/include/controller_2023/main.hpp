@@ -2,6 +2,7 @@
 
 #include <string>
 #include <memory>
+#include <example_interfaces/msg/int8.hpp>
 #include <sensor_msgs/msg/joy.hpp>
 #include <rclcpp/rclcpp.hpp>
 
@@ -16,6 +17,8 @@ struct JoystickState{
     bool Cross = false;
     bool L1 = false;
     bool R1 = false;
+    bool L2 = false;
+    bool R2 = false;
     bool DPadUp = false;
     bool DPadDown = false;
     bool DPadLeft = false;
@@ -33,6 +36,7 @@ class Controller2023 : public rclcpp::Node{
         JoystickState _joy_before_state;
         void onJoy(sensor_msgs::msg::Joy::ConstSharedPtr);
 
+        rclcpp::Publisher<example_interfaces::msg::Int8>::SharedPtr _demeter_publisher;
         rclcpp::Publisher<drobo_interfaces::msg::SolenoidStateMsg>::SharedPtr _riser_publisher;
         rclcpp::Publisher<drobo_interfaces::msg::MdLibMsg>::SharedPtr _md_publisher;
 

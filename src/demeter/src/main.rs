@@ -8,7 +8,7 @@ fn main() -> Result<(), DynError>{
     let ctx = Context::new()?;
     let node = ctx.create_node("demeter", None, Default::default())?;
 
-    let subscriber = node.create_subscriber::<std_msgs::msg::Bool>("demeter_state", None)?;
+    let subscriber = node.create_subscriber::<std_msgs::msg::Int8>("demeter_state", None)?;
 
     let publisher = node.create_publisher::<drobo_interfaces::msg::MdLibMsg>("md_driver_topic", None)?;
     let mut msg = drobo_interfaces::msg::MdLibMsg::new().unwrap();
@@ -24,8 +24,9 @@ fn main() -> Result<(), DynError>{
     selector.add_subscriber(
         subscriber,
         Box::new(move |_msg|{
-            pr_info!(logger, "収穫機構: {}", if _msg.data {"上昇"} else {"下降"});
-            msg.phase = _msg.data; //TODO: やってみて逆だったら調整
+            pr_info!(logger, "収穫機構: {}", if _msg.data == 1 {"上昇"} else if _msg.data == 0 {"下降"} else {"ストップ"});
+            msg.phase = if _msg.data == 1 {true} else {false}; //TODO: やってみて逆だったら調整
+            msg.power = if _msg.data >= 0 {300} else {0};
             publisher.send(&msg).unwrap();
         }),
     );
