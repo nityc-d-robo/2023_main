@@ -38,4 +38,20 @@ void Controller2023::onJoy(sensor_msgs::msg::Joy::ConstSharedPtr joy_msg){
         //ここから色々な処理
         RCLCPP_INFO(this->get_logger(), "○を離したね");
     }
+    if(this->_p9n_if->pressedDPadRight() && !_joy_before_state.DpadRight){
+        _joy_before_state.DpadRight = true;
+        RCLCPP_INFO(this->get_logger(), "FrontSolenoid_Up!");
+        auto msg = std::make_shared<drobo_interfaces::msg::SolenoidStateMsg>();
+        msg->axle_position = 0;
+        msg->state = false;
+        _riser_publisher->publish(*msg);
+    }
+    if(!this->_p9n_if->pressedDPadRight() && _joy_before_state.DpadRight){
+        _joy_before_state.DpadRight = false;
+        RCLCPP_INFO(this->get_logger(), "FrontSolenoid_Down!");
+        auto msg = std::make_shared<drobo_interfaces::msg::SolenoidStateMsg>();
+        msg->axle_position = 0;
+        msg->state = true;
+        _riser_publisher->publish(*msg);
+    }
 }
