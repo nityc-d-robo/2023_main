@@ -52,7 +52,7 @@ void Controller2023::onJoy(sensor_msgs::msg::Joy::ConstSharedPtr joy_msg){
         msg->data = -1;
         _demeter_publisher->publish(*msg);
     }
-    if(this->_p9n_if->pressedL2() && !_joy_before_state.L2){
+    if(this->_p9n_if->pressedL2() && !_joy_before_state.R2){
         _joy_before_state.R2 = true;
         RCLCPP_INFO(this->get_logger(), "下降！");
         auto msg = std::make_shared<example_interfaces::msg::Int8>();
