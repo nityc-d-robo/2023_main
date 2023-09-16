@@ -1,8 +1,6 @@
 <?xml version='1.0' ?>
 
 <launch>
-    <!-- joy -->
-    <node pkg="joy" exec="joy_node"/>
     <!-- cmd_vel publisher -->
     <node pkg="teleop_twist_joy" exec="teleop_node">
         <param name="axis_linear.x" value="1"/>
@@ -18,6 +16,13 @@
     </node>
     <!-- mecanum control -->
     <node pkg="mecanum_control" exec="mecanum_control"/>
+    
+    <!-- mecanum_air_riser -->
+    <node pkg="mecanum_air_riser" exec="mecanum_air_riser"/>
+    
+    <!-- demeter-->
+    <node pkg="demeter" exec="demeter"/>
+    
     <!-- dmotor_ros -->
-    <!--node pkg="dmotor_ros" exec="dmotor_ros"/-->
+    <node pkg="dmotor_ros" exec="dmotor_ros"/>
 </launch>

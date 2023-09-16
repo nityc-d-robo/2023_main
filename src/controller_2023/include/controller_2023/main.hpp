@@ -19,10 +19,16 @@ struct JoystickState{
     bool DPadUp = false;
     bool DPadDown = false;
     bool DPadLeft = false;
-    bool DpadRight = false;
+    bool DPadRight = false;
     bool Start = false;
     bool Select = false;
     bool PS = false;
+};
+
+struct SolenoidState{
+    bool IsFrontSolenoidUp = true;
+    bool IsMidSolenoidUp = true;
+    bool IsRearSolenoidUp = true;
 };
 
 class Controller2023 : public rclcpp::Node{
@@ -31,9 +37,14 @@ class Controller2023 : public rclcpp::Node{
         std::unique_ptr<p9n_interface::PlayStationInterface> _p9n_if;
         rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr _joy_sub;
         JoystickState _joy_before_state;
+        SolenoidState _solenoid_state;
         void onJoy(sensor_msgs::msg::Joy::ConstSharedPtr);
 
         rclcpp::Publisher<drobo_interfaces::msg::SolenoidStateMsg>::SharedPtr _riser_publisher;
+        std::shared_ptr<drobo_interfaces::msg::SolenoidStateMsg> front_solenoid_msg = std::make_shared<drobo_interfaces::msg::SolenoidStateMsg>();
+        std::shared_ptr<drobo_interfaces::msg::SolenoidStateMsg> mid_solenoid_msg = std::make_shared<drobo_interfaces::msg::SolenoidStateMsg>();
+        std::shared_ptr<drobo_interfaces::msg::SolenoidStateMsg> rear_solenoid_msg = std::make_shared<drobo_interfaces::msg::SolenoidStateMsg>();
+
         rclcpp::Publisher<drobo_interfaces::msg::MdLibMsg>::SharedPtr _md_publisher;
 
     public:

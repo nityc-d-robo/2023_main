@@ -1,0 +1,8 @@
+<?xml version='1.0' ?>
+
+<launch>
+	<!-- joy -->
+	<node pkg="joy" exec="joy_node"/>
+	<!-- controller_2023 -->
+	<node pkg="controller_2023" exec="controller_2023_exec"/>
+</launch>

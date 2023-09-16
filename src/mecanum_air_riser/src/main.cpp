@@ -10,8 +10,9 @@ void MecanumAirRiser::_topic_callback(const drobo_interfaces::msg::SolenoidState
     uint16_t solenoind_power = _msg->state ? 0 : 999;
 
     auto msg = std::make_shared<drobo_interfaces::msg::SdLibMsg>();
-    msg->address = _msg->axle_position;
+    msg->address = _msg->axle_position / 2;
     msg->semi_id = NULL;
+    msg->port = _msg->axle_position % 2;
     msg->power1 = solenoind_power;
     msg->power2 = solenoind_power;
     _publisher->publish(*msg);

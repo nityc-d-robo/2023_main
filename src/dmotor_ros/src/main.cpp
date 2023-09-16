@@ -32,7 +32,9 @@ DMotorRos::DMotorRos(
         "sd_driver_topic",
         rclcpp::QoS(10),
         [this](const drobo_interfaces::msg::SdLibMsg::SharedPtr msg){
-            MotorLib::sd.sendPowers(msg->address, msg->semi_id, msg->power1, msg->power2, 5000);
+            RCLCPP_INFO(this->get_logger(), "address: %d, port: %d, power: %d", msg->address, msg->port, msg->power1);
+            auto port = msg->port ? MotorLib::Sd::LimPort::PORT1 : MotorLib::Sd::LimPort::PORT0;
+            MotorLib::sd.sendPower(msg->address, port, msg->power1, 5000);
         }
     );
 }
@@ -46,8 +48,8 @@ int main(int argc, char* argv[]){
     MotorLib::usb.openUsb();
 
     // ソレノイド初期設定
-    for(int i = 0x00; i <= 0x04; i++){
-        MotorLib::sd.sendPowers(i, NULL, 999, 999);
+    for(int i = 0x00; i <= 0x01; i++){
+        MotorLib::sd.sendPowers(i, 999, 999, 5000);
     }
 
     rclcpp::init(argc, argv);
