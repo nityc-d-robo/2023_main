@@ -49,7 +49,7 @@ int main(int argc, char* argv[]){
 
     // ソレノイド初期設定
     for(int i = 0x00; i <= 0x01; i++){
-        MotorLib::sd.sendPowers(i, 999, 999, 5000);
+        MotorLib::sd.sendPowers(i, 0, 0, 5000);
     }
 
     rclcpp::init(argc, argv);

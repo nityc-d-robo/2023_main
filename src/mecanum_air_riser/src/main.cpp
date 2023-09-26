@@ -7,7 +7,7 @@
 
 void MecanumAirRiser::_topic_callback(const drobo_interfaces::msg::SolenoidStateMsg::SharedPtr _msg){
     RCLCPP_INFO(this->get_logger(), "%uを%d", _msg->axle_position, _msg->state);
-    uint16_t solenoind_power = _msg->state ? 0 : 999;
+    uint16_t solenoind_power = _msg->state ? 999 : 0;
 
     auto msg = std::make_shared<drobo_interfaces::msg::SdLibMsg>();
     msg->address = _msg->axle_position / 2;
