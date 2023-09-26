@@ -3,7 +3,7 @@
 Controller2023::Controller2023(const rclcpp::NodeOptions& options) : rclcpp::Node("controller_2023", options){
     const std::string hw_name = this->declare_parameter<std::string>(
         "hw_type",
-        p9n_interface::HW_NAME::DUALSENSE
+        p9n_interface::HW_NAME::DUALSHOCK3
     );
 
     try {
