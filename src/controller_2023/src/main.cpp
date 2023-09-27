@@ -40,15 +40,15 @@ void Controller2023::onJoy(sensor_msgs::msg::Joy::ConstSharedPtr joy_msg){
         //ここから色々な処理
         RCLCPP_INFO(this->get_logger(), "○を離したね");
     }
-    if(this->_p9n_if->pressedDPadRight() && !_joy_before_state.DPadRight){
-        _joy_before_state.DPadRight = true;
+    if(this->_p9n_if->pressedDPadLeft() && !_joy_before_state.DPadLeft){
+        _joy_before_state.DPadLeft = true;
         RCLCPP_INFO(this->get_logger(), "FrontSolenoid_%s!", _solenoid_state.IsFrontSolenoidUp ? "上昇" : "下降");
         front_solenoid_msg->axle_position = 0;
         front_solenoid_msg->state = _solenoid_state.IsFrontSolenoidUp;
         _riser_publisher->publish(*front_solenoid_msg);
         _solenoid_state.IsFrontSolenoidUp = !_solenoid_state.IsFrontSolenoidUp;
     }
-    if(!this->_p9n_if->pressedDPadRight() && _joy_before_state.DPadRight) _joy_before_state.DPadRight = false;
+    if(!this->_p9n_if->pressedDPadLeft() && _joy_before_state.DPadLeft) _joy_before_state.DPadLeft = false;
 
     if(this->_p9n_if->pressedDPadUp() && !_joy_before_state.DPadUp){
         _joy_before_state.DPadUp = true;
@@ -60,13 +60,13 @@ void Controller2023::onJoy(sensor_msgs::msg::Joy::ConstSharedPtr joy_msg){
     }
     if(!this->_p9n_if->pressedDPadUp() && _joy_before_state.DPadUp) _joy_before_state.DPadUp = false;
 
-    if(this->_p9n_if->pressedDPadLeft() && !_joy_before_state.DPadLeft){
-        _joy_before_state.DPadLeft = true;
+    if(this->_p9n_if->pressedDPadRight() && !_joy_before_state.DPadRight){
+        _joy_before_state.DPadRight = true;
         RCLCPP_INFO(this->get_logger(), "RearSolenoid_%s!", _solenoid_state.IsRearSolenoidUp ? "上昇" : "下降");
         rear_solenoid_msg->axle_position = 2;
         rear_solenoid_msg->state = _solenoid_state.IsRearSolenoidUp;
         _riser_publisher->publish(*rear_solenoid_msg);
         _solenoid_state.IsRearSolenoidUp = !_solenoid_state.IsRearSolenoidUp;
     }
-    if(!this->_p9n_if->pressedDPadLeft() && _joy_before_state.DPadLeft) _joy_before_state.DPadLeft = false;
+    if(!this->_p9n_if->pressedDPadRight() && _joy_before_state.DPadRight) _joy_before_state.DPadRight = false;
 }
