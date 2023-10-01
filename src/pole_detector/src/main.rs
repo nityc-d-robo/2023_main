@@ -24,18 +24,21 @@ async fn main() -> Result<(), DynError> {
     handle_rear_sensor.set_value(1)?;
     let mut vl_rear = vl53l1x::Vl53l1x::new(1, None)?;
     vl_rear.soft_reset()?;
+    vl_rear.init()?;
     vl_rear.set_device_address(0x31)?;
     vl_rear.start_ranging(vl53l1x::DistanceMode::Mid)?;
 
     handle_mid_sensor.set_value(1)?;
     let mut vl_mid = vl53l1x::Vl53l1x::new(1, None)?;
     vl_mid.soft_reset()?;
+    vl_mid.init()?;
     vl_mid.set_device_address(0x30)?;
     vl_mid.start_ranging(vl53l1x::DistanceMode::Mid)?;
 
     handle_front_sensor.set_value(1)?;
     let mut vl_front = vl53l1x::Vl53l1x::new(1, None)?;
     vl_front.soft_reset()?;
+    vl_front.init()?;
     vl_front.start_ranging(vl53l1x::DistanceMode::Mid)?;
 
     let ctx = Context::new()?;
