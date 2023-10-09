@@ -22,3 +22,6 @@
 [submodule "src/demeter"]
 	path = src/demeter
 	url = https://github.com/nityc-d-robo/demeter.git
+[submodule "src/topic_throttle"]
+	path = src/topic_throttle
+	url = https://github.com/nityc-d-robo/topic_throttle.git
