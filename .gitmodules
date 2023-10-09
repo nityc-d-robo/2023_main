@@ -1,0 +1,21 @@
+[submodule "src/dmotor_ros"]
+	path = src/dmotor_ros
+	url = https://github.com/nityc-d-robo/dmotor_ros.git
+[submodule "src/mecanum_control"]
+	path = src/mecanum_control
+	url = https://github.com/nityc-d-robo/mecanum_control.git
+[submodule "src/mecanum_air_riser"]
+	path = src/mecanum_air_riser
+	url = https://github.com/nityc-d-robo/mecanum_air_riser.git
+[submodule "src/pole_detector"]
+	path = src/pole_detector
+	url = https://github.com/nityc-d-robo/pole_detector.git
+[submodule "src/block_detector"]
+	path = src/block_detector
+	url = https://github.com/nityc-d-robo/block_detector.git
+[submodule "src/main_2023"]
+	path = src/main_2023
+	url = https://github.com/nityc-d-robo/main_2023.git
+[submodule "src/drobo_interfaces"]
+	path = src/drobo_interfaces
+	url = https://github.com/nityc-d-robo/drobo_interfaces.git
