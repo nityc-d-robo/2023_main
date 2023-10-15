@@ -25,3 +25,6 @@
 [submodule "src/topic_throttle"]
 	path = src/topic_throttle
 	url = https://github.com/nityc-d-robo/topic_throttle.git
+[submodule "src/support_wheel_drive"]
+	path = src/support_wheel_drive
+	url = https://github.com/nityc-d-robo/support_wheel_drive.git
